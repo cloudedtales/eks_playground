@@ -7,16 +7,13 @@ variable "name" {
 }
 
 variable "replicas" {
-  default = 7
+  default = 4
 }
 
 variable "image" {
   default = "nginx:1.7.8"
 }
 
-variable "hard_pod_limit" {
-  default = 6
-}
 
 variable "cluster_name" {
   default = "terraform-eks-demo"
