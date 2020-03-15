@@ -1,5 +1,5 @@
 resource "aws_iam_role" "demo-cluster" {
-  name = "terraform-eks-demo-cluster3"
+  name = "terraform-eks-demo-cluster-role"
 
   assume_role_policy = <<POLICY
 {
@@ -30,11 +30,10 @@ resource "aws_iam_role_policy_attachment" "demo-cluster-AmazonEKSServicePolicy" 
 resource "aws_eks_cluster" "demo" {
   name = var.cluster-name
   role_arn = aws_iam_role.demo-cluster.arn
-  version = "1.15"
+  version = var.kubernetes_version
 
   vpc_config {
     subnet_ids = aws_subnet.eks_demo.*.id
-#    security_group_ids = [aws_security_group.demo-cluster.id]
   }
 
   depends_on = [
@@ -47,7 +46,7 @@ resource "aws_eks_cluster" "demo" {
 
 resource "aws_cloudwatch_log_group" "log"{
   name = "/aws/eks/${var.cluster-name}/cluster"
-  retention_in_days = 7
+  retention_in_days = var.log_retention_in_days
 }
 
 
@@ -58,4 +57,3 @@ output "cluster-name" {
 output "cluster" {
   value = aws_eks_cluster.demo.endpoint
 }
-

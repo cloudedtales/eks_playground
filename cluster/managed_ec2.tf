@@ -35,8 +35,8 @@ resource "aws_eks_node_group" "example" {
   subnet_ids      = aws_subnet.eks_demo[*].id
 
   scaling_config {
-    desired_size = 2
-    max_size     = 2
-    min_size     = 2
+    desired_size = var.nodes_desired_size
+    max_size     = var.nodes_max_size
+    min_size     = var.nodes_min_size
   }
 }

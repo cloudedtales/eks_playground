@@ -10,7 +10,7 @@ resource "aws_vpc" "eks_demo" {
 }
 
 resource "aws_subnet" "eks_demo" {
-  count = 2
+  count = 3
   availability_zone = data.aws_availability_zones.available.names[count.index]
   cidr_block = "10.0.${count.index}.0/24"
   vpc_id = aws_vpc.eks_demo.id
@@ -39,7 +39,7 @@ resource "aws_route_table" "eks_demo" {
 }
 
 resource "aws_route_table_association" "eks_demo" {
-  count = 2
+  count = 3
   route_table_id = aws_route_table.eks_demo.id
   subnet_id = aws_subnet.eks_demo[count.index].id
 }
